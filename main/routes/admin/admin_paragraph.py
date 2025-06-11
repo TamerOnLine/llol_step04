@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from main.models.models import db, ResumeSection, ResumeParagraph
 from main.i18n_runtime import get_locale
+from flask_babel import force_locale, gettext as _
 
 from . import admin_bp
 
@@ -9,7 +10,8 @@ from . import admin_bp
 def single_section_view(section_id):
     section = ResumeSection.query.get_or_404(section_id)
     paragraphs = section.paragraphs
-    return render_template('admin/single_section_view.html.j2', section=section, paragraphs=paragraphs)
+    with force_locale(get_locale()):
+        return render_template('admin/single_section_view.html.j2', section=section, paragraphs=paragraphs)
 
 # ✅ إضافة فقرة
 @admin_bp.route('/paragraph/add/<int:section_id>', methods=['POST'])
@@ -27,7 +29,8 @@ def add_paragraph(section_id):
     )
     db.session.add(paragraph)
     db.session.commit()
-    flash("✅ Paragraph added successfully", "success")
+    with force_locale(get_locale()):
+        flash(_("✅ Paragraph added successfully"), "success")
     return redirect(url_for('admin.single_section_view', section_id=section.id))
 
 # ✅ تعديل فقرة
@@ -38,7 +41,8 @@ def edit_paragraph(paragraph_id):
     paragraph.order = int(request.form.get('order', paragraph.order))
     paragraph.is_visible = 'is_visible' in request.form
     db.session.commit()
-    flash("💾 Paragraph updated successfully", "success")
+    with force_locale(get_locale()):
+        flash(_("💾 Paragraph updated successfully"), "success")
     return redirect(url_for('admin.single_section_view', section_id=paragraph.resume_section_id))
 
 # ✅ حذف فقرة
@@ -48,7 +52,8 @@ def delete_paragraph(paragraph_id):
     section_id = paragraph.resume_section_id
     db.session.delete(paragraph)
     db.session.commit()
-    flash("🗑️ Paragraph deleted", "danger")
+    with force_locale(get_locale()):
+        flash(_("🗑️ Paragraph deleted"), "danger")
     return redirect(url_for('admin.single_section_view', section_id=section_id))
 
 # ✅ إظهار/إخفاء فقرة
@@ -58,9 +63,11 @@ def toggle_paragraph_visibility(paragraph_id):
     paragraph.is_visible = not paragraph.is_visible
     db.session.commit()
     if paragraph.is_visible:
-        flash("👁️ Paragraph is now visible", "success")
+        with force_locale(get_locale()):
+            flash(_("👁️ Paragraph is now visible"), "success")
     else:
-        flash("🙈 Paragraph is now hidden", "warning")
+        with force_locale(get_locale()):
+            flash(_("🙈 Paragraph is now hidden"), "warning")
     return redirect(url_for('admin.single_section_view', section_id=paragraph.resume_section_id))
 
 # ✅ تحريك فقرة لأعلى
@@ -75,9 +82,11 @@ def move_paragraph_up(paragraph_id):
     if previous:
         paragraph.order, previous.order = previous.order, paragraph.order
         db.session.commit()
-        flash("⬆️ Paragraph moved up", "info")
+        with force_locale(get_locale()):
+            flash(_("⬆️ Paragraph moved up"), "info")
     else:
-        flash("⚠️ Already at the top", "warning")
+        with force_locale(get_locale()):
+            flash(_("⚠️ Already at the top"), "warning")
     return redirect(url_for('admin.single_section_view', section_id=section.id))
 
 # ✅ تحريك فقرة لأسفل
@@ -92,7 +101,9 @@ def move_paragraph_down(paragraph_id):
     if next_item:
         paragraph.order, next_item.order = next_item.order, paragraph.order
         db.session.commit()
-        flash("⬇️ Paragraph moved down", "info")
+        with force_locale(get_locale()):
+            flash(_("⬇️ Paragraph moved down"), "info")
     else:
-        flash("⚠️ Already at the bottom", "warning")
+        with force_locale(get_locale()):
+            flash(_("⚠️ Already at the bottom"), "warning")
     return redirect(url_for('admin.single_section_view', section_id=section.id))
