@@ -1,98 +1,50 @@
-# 🧠 Multilingual Dynamic Resume Builder – llol_step03
+# Step 04 – Dynamic Translation Integration
 
-A powerful and modular Flask application for building interactive, multilingual resumes with full admin control.  
-This is part of the **llol_step** educational journey under the [Flask University](https://github.com/Flask-University) initiative.
+This step represents a major breakthrough in building a multilingual-ready resume management system using Flask and Babel.
 
----
-
-## 🚀 Features
-
-- ✅ Dynamic resume builder with full CRUD for sections, paragraphs, and fields
-- 🌐 Multilingual support with `flask-babel` and automatic translation via `deep_translator`
-- 🎨 Custom styling controls with live preview (section titles, paragraph styles, fonts)
-- 🧱 Admin interface to manage visibility, ordering, and content of resume parts
-- 🧭 Customizable navigation menu
-- 📜 Fully translatable content via `.po` files
-- 💼 Public resume view with live language switching
+Instead of relying on hardcoded translations, we now support **fully dynamic translation** of user-generated content, UI text, and database fields – including RTL support for Arabic.
 
 ---
 
-## 🗂️ Project Structure
+## ✅ Key Accomplishments
 
-```bash
-tameronline-llol_step03/
-├── main/
-│   ├── routes/            # Main, public, and admin routes (modular)
-│   ├── models/            # SQLAlchemy models
-│   ├── logic/             # Business logic (e.g., CSS building)
-│   ├── tools/             # Utility scripts like database initialization
-│   ├── static/            # CSS assets
-│   ├── templates/         # Jinja2 templates (admin/public/partials)
-│   ├── translations/      # .po/.mo files for supported languages
-│   └── config/            # Centralized settings
-├── requirements.txt
-└── run.py
+- Implemented dynamic translation fields (e.g. `title_translations`, `value_translations`)
+- Applied `force_locale(get_locale())` to enforce active language in UI rendering
+- Enabled flash message translations with context-aware control
+- Added `dir="rtl"` support for Arabic in the HTML layout
+- Activated session-based language switching across all admin routes and templates
+
+---
+
+## 🧠 Why There Is No Manual Translation Here
+
+> This project does **not** rely on manually written dual-language documentation.  
+> All translatable elements are rendered **dynamically** based on the active language selected by the user.
+
+🌐 Instead of duplicating content in this README file, the system itself showcases how multilingual rendering works – live and in real time.
+
+---
+
+## 🌍 Try It Yourself
+
+To experience dynamic translation in action, simply run the app and switch languages via the admin panel or by using URL parameters like:
+
+```
+/admin/resume_builder?lang=ar
+/admin/resume_builder?lang=en
 ```
 
----
+The content will be automatically rendered in the selected language, including layout direction.
 
-## 🌍 Supported Languages
-
-- English (`en`)
-- Arabic (`ar`)
-- German (`de`)
-
-Easily switchable via the navbar or `?lang=` query parameter.
-
----
-
-## ⚙️ Tech Stack
-
-- **Backend**: Flask, SQLAlchemy, Flask-Babel
-- **Frontend**: Jinja2, HTML5, CSS3
-- **i18n**: Babel, Deep Translator (Google)
-- **Database**: SQLite (easily swappable)
-- **Deployment**: WSGI-ready (gunicorn + nginx compatible)
-
----
-
-## 🛠️ Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/TamerOnLine/llol_step03.git
-cd llol_step03
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the app
-cd main
-python run.py
-```
-
----
-
-## 🔡 Translation Workflow
-
-To extract and translate strings:
-
-```bash
-# Run the i18n script
-cd main
-python i18n_translate.py
-```
-
----
 
 
 ## 🛠️ Next Step
 
-> 👉 [Go to llol_step04 →](https://github.com/TamerOnLine/llol_step04)
+> 👉 [Go to llol_step05 →](https://github.com/TamerOnLine/llol_step05)
 
-The next phase will focus on:
-- Organizing admin routes into a dedicated folder
-- Improving developer experience and modularity
+- Language-aware admin forms
+- Live editing in multiple languages
+- Auto-translation features
 
 ---
 
